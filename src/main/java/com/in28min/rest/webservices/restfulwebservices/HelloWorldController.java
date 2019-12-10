@@ -16,11 +16,11 @@ public class HelloWorldController {
 
     @GetMapping(path = "/helloworldbean")
     public HelloWorldBean helloWorldBean(){
-        return new HelloWorldBean("Hello-World-Bean  changed!!!");
+        return new HelloWorldBean("Hello-World-Bean -- changed!!!");
     }
 
     @GetMapping(path = "/helloworldbean/pathvariable/{name}")
     public HelloWorldBean helloWorldPathVariable(@PathVariable String name){
-        return new HelloWorldBean(String.format("Hello-World-Bean to --> %s",name));
+        return new HelloWorldBean(String.format("Hello-World-Bean to ---> %s",name));
     }
 }
