@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class TodoResource {
@@ -35,45 +34,27 @@ public class TodoResource {
         return todoService.findById(id);
     }
 
-    //DELETE /users/{username}/todos/{id}
     @DeleteMapping("/users/{username}/todos/{id}")
-    public ResponseEntity<Void> deleteTodo(
-            @PathVariable String username, @PathVariable long id){
-
+    public ResponseEntity<Void> deleteTodo(@PathVariable String username, @PathVariable long id){
         Todo todo = todoService.deleteById(id);
-
         if(todo!=null) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.notFound().build();
     }
 
-
-    //Edit/Update a Todo
-    //PUT /users/{user_name}/todos/{todo_id}
     @PutMapping("/users/{username}/todos/{id}")
-    public ResponseEntity<Todo> updateTodo(
-            @PathVariable String username,
-            @PathVariable long id, @RequestBody Todo todo){
-
+    public ResponseEntity<Todo> updateTodo(@PathVariable String username, @PathVariable long id, @RequestBody Todo todo){
         Todo todoUpdated = todoService.save(todo);
-
         return new ResponseEntity<Todo>(todo, HttpStatus.OK);
     }
 
     @PostMapping("/users/{username}/todos")
-    public ResponseEntity<Void> updateTodo(
-            @PathVariable String username, @RequestBody Todo todo){
-
+    public ResponseEntity<Void> updateTodo(@PathVariable String username, @RequestBody Todo todo){
         Todo createdTodo = todoService.save(todo);
-
-        //Location
-        //Get current resource url
-        ///{id}
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}").buildAndExpand(createdTodo.getId()).toUri();
-
+                .path("/{id}")
+                .buildAndExpand(createdTodo.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
